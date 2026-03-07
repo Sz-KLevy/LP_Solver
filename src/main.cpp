@@ -1,15 +1,14 @@
 #include <iostream>
 #include <vector>
 #include<string>
-using namespace std;
 
 
 class Monom{
 public:
     double egyutthato;
-    string ismeretlen;
+    std::string ismeretlen;
 
-    Monom(double e, string i){
+    Monom(double e, std::string i){
         egyutthato = e;
         ismeretlen = i;
     }
@@ -18,35 +17,39 @@ public:
 
     double getCoefficient(){return egyutthato;}
 
-    void changeName(string uj_ismeretlen){ismeretlen = uj_ismeretlen;}
+    void changeName(std::string uj_ismeretlen){ismeretlen = uj_ismeretlen;}
 
-    string getName(){return ismeretlen;}
+    std::string getName(){return ismeretlen;}
 
-    show(){
-        cout << egyutthato << ismeretlen;
+    void show(){
+        std::cout << egyutthato << ismeretlen;
     }
+};
+
+enum class Oldal
+{
+    Jobb,
+    Bal,
 };
 
 class Feltetel{
 public:
-    vector<Monom> bal_oldal;
-    vector<Monom> jobb_oldal;
+    std::vector<Monom> bal_oldal;
+    std::vector<Monom> jobb_oldal;
 
-    Feltetel(vector<Monom> bal, vector<Monom> jobb){
+    Feltetel(std::vector<Monom> bal, std::vector<Monom> jobb){
         bal_oldal = bal;
         jobb_oldal = jobb;
     }
 
-    void add(string oldal, Monom monom){
-        if(oldal=="bal"){bal_oldal.push_back(monom);}
-        else if(oldal == "jobb"){jobb_oldal.push_back(monom);}
-        else{cerr << "Nincsen ilyen oldal";}
+    void add(Oldal oldal, Monom monom){
+        if(oldal==Oldal::Bal){bal_oldal.push_back(monom);}
+        else if(oldal == Oldal::Jobb){jobb_oldal.push_back(monom);}
     }
 
-    void removeLast(string oldal){
-        if(oldal=="bal"){bal_oldal.pop_back();}
-        else if(oldal == "jobb"){jobb_oldal.pop_back();}
-        else{cerr << "Nincsen ilyen oldal";}
+    void removeLast(Oldal oldal){
+        if(oldal==Oldal::Bal){bal_oldal.pop_back();}
+        else if(oldal == Oldal::Jobb){jobb_oldal.pop_back();}
     }
 
     void show(){
@@ -61,11 +64,11 @@ public:
 
 class Celfuggveny{
 public:
-    string irany;
-    vector<Monom> fuggveny;
+    std::string irany;
+    std::vector<Monom> fuggveny;
 
     //nincsen irany ellenőrzés
-    Celfuggveny(string i, vector<Monom> f){
+    Celfuggveny(std::string i, std::vector<Monom> f){
         irany = i;
         fuggveny = f;
     }
@@ -73,7 +76,7 @@ public:
     void changeDirection(){
         if(irany == "max"){irany = "min";}
         else if(irany == "min"){irany = "max";}
-        else{cerr << "Nem megfelelo az iranya:" << irany;}
+        else{std::cerr << "Nem megfelelo az iranya:" << irany;}
 
         for(int i = 0; i < fuggveny.size(); i++){
             fuggveny[i].changeCoefficient(-fuggveny[i].getCoefficient());
@@ -109,18 +112,18 @@ int main()
     double legkisebb_ertek =0;
     double legnagyobb_ertek =1;
 
-    vector<double> temp_storage;
-    string a="";
+    std::vector<double> temp_storage;
+    std::string a="";
 
     do{
-        cin >> a;
+        std::cin >> a;
         try{
-            double b=stod(a);
+            double b=std::stod(a);
             if(legkisebb_ertek <= b && b <= legnagyobb_ertek){
                 temp_storage.push_back(b);
             }
             else{
-                cout << "Ertek tartomanyon kivul esik.";
+                std::cout << "Ertek tartomanyon kivul esik.";
             }
         }
         catch(...){
