@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
-#include<string>
+#include <string>
+#include <memory>
+#include <format>
 
 
 class Monom{
@@ -22,7 +24,7 @@ public:
     std::string getName(){return ismeretlen;}
 
     void show(){
-        std::cout << egyutthato << ismeretlen;
+        std::cout << std::format("{:+}", egyutthato) << ismeretlen;
     }
 };
 
@@ -90,6 +92,7 @@ public:
     void removeLast(){fuggveny.pop_back();}
 
     void show(){
+        std::cout << "z = " << (irany == Irany::Min ? "min" : "max") << " ";
         for(int i = 0; i < fuggveny.size(); i++){
             fuggveny[i].show();
         }
