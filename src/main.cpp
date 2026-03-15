@@ -64,19 +64,21 @@ public:
 
 class Celfuggveny{
 public:
-    std::string irany;
+    enum class Irany {
+        Min,
+        Max,
+    };
+
+    Irany irany;
     std::vector<Monom> fuggveny;
 
-    //nincsen irany ellenőrzés
-    Celfuggveny(std::string i, std::vector<Monom> f){
+    Celfuggveny(Irany i, std::vector<Monom> f){
         irany = i;
         fuggveny = f;
     }
 
     void changeDirection(){
-        if(irany == "max"){irany = "min";}
-        else if(irany == "min"){irany = "max";}
-        else{std::cerr << "Nem megfelelo az iranya:" << irany;}
+        irany = (irany == Irany::Max ? Irany::Min : Irany::Max);
 
         for(int i = 0; i < fuggveny.size(); i++){
             fuggveny[i].changeCoefficient(-fuggveny[i].getCoefficient());
