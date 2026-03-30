@@ -5,4 +5,10 @@ set(CMAKE_CXX_STANDARD 20)
 
 project(LPSolver VERSION 1.0)
 
-add_executable(solver src/main.cpp)
+find_package(Qt6 REQUIRED COMPONENTS Widgets)
+
+qt_standard_project_setup()
+
+qt_add_executable(solver src/main.cpp)
+
+target_link_libraries(solver PRIVATE Qt6::Widgets)
