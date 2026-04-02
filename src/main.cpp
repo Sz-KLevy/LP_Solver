@@ -3,7 +3,8 @@
 #include <string>
 #include <memory>
 #include <format>
-
+#include <QApplication>
+#include <QLabel>
 
 class Monom{
 public:
@@ -110,8 +111,9 @@ x<= legnagyobb_ertek
 */
 
 
-int main()
+int main(int argc, char** argv)
 {
+    /*
     std::cout << "Add meg a kordinatakat:\n";
 
     double legkisebb_ertek =0;
@@ -136,6 +138,17 @@ int main()
     }while(a!="END");
 
 
+    */
 
-    return 0;
+    std::vector<Monom> monom = {Monom{2, "x₁"}, Monom{0.5, "x₂"}};
+    auto celf = std::make_unique<Celfuggveny>(Celfuggveny::Irany::Min, monom);
+
+    celf->show();
+    std::cout << '\n';
+
+    QApplication app(argc, argv);
+    QLabel label{"Hello world"};
+    label.setMargin(20);
+    label.show();
+    return app.exec();
 }
