@@ -5,6 +5,9 @@
 #include <format>
 #include <QApplication>
 #include <QLabel>
+#include <QPainter>
+#include <QPoint>
+#include <QMouseEvent>
 
 class Monom{
 public:
@@ -101,6 +104,70 @@ public:
 };
 
 
+class UI : public QWidget{
+public:
+    int windowSize[2] = {500, 500};
+    int cellSize = 50;
+    std::vector<QPoint> points;
+    QPoint optimalPoint;
+
+
+
+    UI(QWidget *parent = nullptr) : QWidget(parent){
+        resize(windowSize[0], windowSize[1]);
+        optimalPoint = QPoint(windowSize[0]/2, windowSize[1]/2);
+    }
+
+
+
+
+private:
+    void paintEvent(QPaintEvent*) override {
+        QPainter painter(this);
+        drawGrid(painter, cellSize);
+        drawPoints(painter);
+        drawOptimalPoint(painter, optimalPoint);
+    }
+
+    void mousePressEvent(QMouseEvent* event) override {
+        QPoint click = event->pos();
+
+        points.push_back(QPoint(click.x(), click.y()));
+
+        int intOptimalPoint[2] = {100, 100}; //this is where the UI asks for the position of the optimal point
+        optimalPoint = QPoint(intOptimalPoint[0], intOptimalPoint[1]);
+
+        update(); //repaints
+    }
+
+
+    void drawGrid(QPainter& painter, int cellSize){
+        painter.setPen(Qt::black);
+
+        for (int x = 0; x < width(); x += cellSize)
+            painter.drawLine(x, 0, x, height());
+
+        for (int y = 0; y < height(); y += cellSize)
+            painter.drawLine(0, y, width(), y);
+    }
+
+    void drawPoints(QPainter& painter){
+        painter.setPen(Qt::red);
+        painter.setBrush(Qt::red);
+
+        for (const QPoint& p : points) {
+            painter.drawEllipse(p, 5, 5);
+        }
+    }
+
+    void drawOptimalPoint(QPainter& painter, QPoint optimal){
+        painter.setPen(Qt::darkGreen);
+        painter.setBrush(Qt::darkGreen);
+        painter.drawEllipse(optimal, 5, 5);
+    }
+};
+
+
 /*
 celfuggveny:
 min |x-x1|+|x-x2|+|x-x3|+...
@@ -147,8 +214,11 @@ int main(int argc, char** argv)
     std::cout << '\n';
 
     QApplication app(argc, argv);
-    QLabel label{"Hello world"};
+    /*QLabel label{"Hello world"};
     label.setMargin(20);
-    label.show();
+    label.show();*/
+    UI ui;
+    ui.show();
+
     return app.exec();
 }
