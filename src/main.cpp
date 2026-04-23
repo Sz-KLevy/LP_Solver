@@ -28,8 +28,8 @@ public:
 
     std::string getName(){return ismeretlen;}
 
-    void show(){
-        std::cout << std::format("{:+}", egyutthato) << ismeretlen;
+    operator std::string() const {
+        return std::format("{:+}", egyutthato) + ismeretlen;
     }
 };
 
@@ -59,13 +59,16 @@ public:
         else if(oldal == Oldal::Jobb){jobb_oldal.pop_back();}
     }
 
-    void show(){
-        for(int i = 0; i < bal_oldal.size(); i++){
-            bal_oldal[i].show();
+    operator std::string() const {
+        std::string out;
+        for (const auto& val : bal_oldal) {
+            out += val;
         }
-        for(int i = 0; i < jobb_oldal.size(); i++){
-            jobb_oldal[i].show();
+        out += " ";
+        for (const auto& val : jobb_oldal) {
+            out += val;
         }
+        return out;
     }
 };
 
@@ -96,11 +99,15 @@ public:
 
     void removeLast(){fuggveny.pop_back();}
 
-    void show(){
-        std::cout << "z = " << (irany == Irany::Min ? "min" : "max") << " ";
-        for(int i = 0; i < fuggveny.size(); i++){
-            fuggveny[i].show();
+    operator std::string() const {
+        std::string out = "z = ";
+        out += (irany == Irany::Min ? "min" : "max");
+        out += " ";
+        for (const auto& v : fuggveny) {
+            out += v;
         }
+
+        return out;
     }
 };
 
@@ -252,8 +259,6 @@ int main(int argc, char** argv)
     std::vector<Monom> monom = {Monom{2, "x₁"}, Monom{0.5, "x₂"}};
     auto celf = std::make_unique<Celfuggveny>(Celfuggveny::Irany::Min, monom);
 
-    celf->show();
-    std::cout << '\n';
 
     QApplication app(argc, argv);
     /*QLabel label{"Hello world"};
