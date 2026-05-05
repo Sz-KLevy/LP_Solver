@@ -111,6 +111,32 @@ public:
     }
 };
 
+class LP {
+private:
+    std::vector<std::unique_ptr<Feltetel>> m_feltetelek;
+    std::unique_ptr<Celfuggveny> m_celfuggveny;
+
+public:
+    LP(
+        std::vector<std::unique_ptr<Feltetel>>& feltetelek,
+        std::unique_ptr<Celfuggveny>& celfuggveny) {
+        m_feltetelek = std::move(feltetelek);
+        m_celfuggveny = std::move(celfuggveny);
+    }
+
+    operator std::string() const
+    {
+        std::string out;
+        for (const auto& v : m_feltetelek) {
+            out += (std::string{*v} + "\n");
+        }
+        out += *m_celfuggveny;
+
+        return out;
+    }
+
+};
+
 
 class UI : public QWidget{
 public:
@@ -257,8 +283,13 @@ int main(int argc, char** argv)
     */
 
     std::vector<Monom> monom = {Monom{2, "x₁"}, Monom{0.5, "x₂"}};
+    std::vector<std::unique_ptr<Feltetel>> feltetelek;
+    feltetelek.emplace_back(std::make_unique<Feltetel>(std::vector<Monom>{{5, "x1"}}, std::vector<Monom>{{20, "x2"}}));
     auto celf = std::make_unique<Celfuggveny>(Celfuggveny::Irany::Min, monom);
 
+    auto lp = std::make_unique<LP>(feltetelek, celf);
+
+    std::cout << std::string{*lp} << '\n';
 
     QApplication app(argc, argv);
     /*QLabel label{"Hello world"};
