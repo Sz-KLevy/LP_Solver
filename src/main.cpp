@@ -3,107 +3,12 @@
 #include <array>
 #include <string>
 #include <memory>
-#include <format>
 #include <QApplication>
 #include <QLabel>
 #include <QPainter>
 #include <QPoint>
 #include <QMouseEvent>
-
-class Monom{
-public:
-    double egyutthato;
-    std::string ismeretlen;
-
-    Monom(double e, std::string i){
-        egyutthato = e;
-        ismeretlen = i;
-    }
-
-    void changeCoefficient(double uj_egyutthato){egyutthato = uj_egyutthato;}
-
-    double getCoefficient(){return egyutthato;}
-
-    void changeName(std::string uj_ismeretlen){ismeretlen = uj_ismeretlen;}
-
-    std::string getName(){return ismeretlen;}
-
-    void show(){
-        std::cout << std::format("{:+}", egyutthato) << ismeretlen;
-    }
-};
-
-enum class Oldal
-{
-    Jobb,
-    Bal,
-};
-
-class Feltetel{
-public:
-    std::vector<Monom> bal_oldal;
-    std::vector<Monom> jobb_oldal;
-
-    Feltetel(std::vector<Monom> bal, std::vector<Monom> jobb){
-        bal_oldal = bal;
-        jobb_oldal = jobb;
-    }
-
-    void add(Oldal oldal, Monom monom){
-        if(oldal==Oldal::Bal){bal_oldal.push_back(monom);}
-        else if(oldal == Oldal::Jobb){jobb_oldal.push_back(monom);}
-    }
-
-    void removeLast(Oldal oldal){
-        if(oldal==Oldal::Bal){bal_oldal.pop_back();}
-        else if(oldal == Oldal::Jobb){jobb_oldal.pop_back();}
-    }
-
-    void show(){
-        for(int i = 0; i < bal_oldal.size(); i++){
-            bal_oldal[i].show();
-        }
-        for(int i = 0; i < jobb_oldal.size(); i++){
-            jobb_oldal[i].show();
-        }
-    }
-};
-
-class Celfuggveny{
-public:
-    enum class Irany {
-        Min,
-        Max,
-    };
-
-    Irany irany;
-    std::vector<Monom> fuggveny;
-
-    Celfuggveny(Irany i, std::vector<Monom> f){
-        irany = i;
-        fuggveny = f;
-    }
-
-    void changeDirection(){
-        irany = (irany == Irany::Max ? Irany::Min : Irany::Max);
-
-        for(int i = 0; i < fuggveny.size(); i++){
-            fuggveny[i].changeCoefficient(-fuggveny[i].getCoefficient());
-        }
-    }
-
-    void add(Monom monom){fuggveny.push_back(monom);}
-
-    void removeLast(){fuggveny.pop_back();}
-
-    void show(){
-        std::cout << "z = " << (irany == Irany::Min ? "min" : "max") << " ";
-        for(int i = 0; i < fuggveny.size(); i++){
-            fuggveny[i].show();
-        }
-    }
-};
-
+#include "LP.h"
 
 class UI : public QWidget{
 public:
@@ -250,10 +155,13 @@ int main(int argc, char** argv)
     */
 
     std::vector<Monom> monom = {Monom{2, "x₁"}, Monom{0.5, "x₂"}};
+    std::vector<std::unique_ptr<Feltetel>> feltetelek;
+    feltetelek.emplace_back(std::make_unique<Feltetel>(std::vector<Monom>{{5, "x1"}}, std::vector<Monom>{{20, "x2"}}));
     auto celf = std::make_unique<Celfuggveny>(Celfuggveny::Irany::Min, monom);
 
-    celf->show();
-    std::cout << '\n';
+    auto lp = std::make_unique<LP>(feltetelek, celf);
+
+    std::cout << std::string{*lp} << '\n';
 
     QApplication app(argc, argv);
     /*QLabel label{"Hello world"};
