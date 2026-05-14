@@ -15,6 +15,7 @@ qt_add_executable(solver
     src/Feltetel.cpp
     src/Celfuggveny.cpp
     src/LP.cpp
+    src/UI.cpp
 )
 
 target_link_libraries(solver PRIVATE Qt6::Widgets)
