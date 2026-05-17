@@ -17,7 +17,7 @@ double Monom::getCoefficient()
     return egyutthato;
 }
 
-void Monom::changeName(std::string uj_ismeretlen)
+void Monom::changeName(const std::string& uj_ismeretlen)
 {
     ismeretlen = uj_ismeretlen;
 }
@@ -25,6 +25,23 @@ void Monom::changeName(std::string uj_ismeretlen)
 std::string Monom::getName()
 {
     return ismeretlen;
+}
+
+bool Monom::isConstant() const
+{
+    return ismeretlen.empty();
+}
+
+Monom& Monom::operator*=(double val)
+{
+    egyutthato *= val;
+    return *this;
+}
+
+Monom& Monom::operator/=(double val)
+{
+    egyutthato /= val;
+    return *this;
 }
 
 Monom::operator std::string() const
