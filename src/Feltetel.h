@@ -12,16 +12,27 @@ enum class Oldal
 
 class Feltetel
 {
+public:
+    enum class Condition
+    {
+        LessThan,
+        LessThanOrEquals,
+        GreaterThan,
+        GreaterThanOrEquals,
+    };
+
 private:
     std::vector<Monom> bal_oldal;
     std::vector<Monom> jobb_oldal;
+    Condition m_condition;
 
 public:
-    Feltetel(std::vector<Monom> bal, std::vector<Monom> jobb);
+    Feltetel(Condition cond, std::vector<Monom> bal, std::vector<Monom> jobb);
 
     void add(Oldal oldal, Monom monom);
-
     void removeLast(Oldal oldal);
+
+    void convertToLessThanOrEquals();
 
     operator std::string() const;
 };

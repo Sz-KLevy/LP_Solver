@@ -9,7 +9,7 @@ void Celfuggveny::changeDirection(){
     irany = (irany == Irany::Max ? Irany::Min : Irany::Max);
 
     for(int i = 0; i < fuggveny.size(); i++){
-        fuggveny[i].changeCoefficient(-fuggveny[i].getCoefficient());
+        fuggveny[i] *= -1;
     }
 }
 
@@ -19,6 +19,14 @@ void Celfuggveny::add(Monom monom){
 
 void Celfuggveny::removeLast(){
     fuggveny.pop_back();
+}
+
+void Celfuggveny::convertToStandardForm()
+{
+    if (irany == Irany::Min)
+    {
+        changeDirection();
+    }
 }
 
 Celfuggveny::operator std::string() const {

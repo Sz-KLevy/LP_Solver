@@ -10,13 +10,18 @@ private:
     std::string ismeretlen;
 
 public:
-    Monom(double e, std::string i);
+    Monom(double e, std::string i="");
 
     void changeCoefficient(double uj_egyutthato);
     double getCoefficient();
 
-    void changeName(std::string uj_ismeretlen);
+    void changeName(const std::string& uj_ismeretlen);
     std::string getName();
+
+    bool isConstant() const;
+
+    Monom& operator*=(double val);
+    Monom& operator/=(double val);
 
     operator std::string() const;
 };
