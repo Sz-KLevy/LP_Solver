@@ -47,11 +47,29 @@ int main(int argc, char** argv){
 
     std::vector<Monom> monom = {Monom{2, "x₁"}, Monom{0.5, "x₂"}};
     std::vector<std::unique_ptr<Feltetel>> feltetelek;
-    feltetelek.emplace_back(std::make_unique<Feltetel>(std::vector<Monom>{{5, "x1"}}, std::vector<Monom>{{20, "x2"}}));
+    feltetelek.emplace_back(std::make_unique<Feltetel>(
+        Feltetel::Condition::GreaterThanOrEquals,
+        std::vector<Monom>{{5, "x₁"}},
+        std::vector<Monom>{{20}}
+    ));
+    feltetelek.emplace_back(std::make_unique<Feltetel>(
+        Feltetel::Condition::LessThanOrEquals,
+        std::vector<Monom>{{1, "x₂"}},
+        std::vector<Monom>{{8}}
+    ));
+    feltetelek.emplace_back(std::make_unique<Feltetel>(
+        Feltetel::Condition::LessThanOrEquals,
+        std::vector<Monom>{{0.5, "x₃"}},
+        std::vector<Monom>{{12}}
+    ));
     auto celf = std::make_unique<Celfuggveny>(Celfuggveny::Irany::Min, monom);
 
     auto lp = std::make_unique<LP>(feltetelek, celf);
 
+    std::cout << "Original:\n";
+    std::cout << std::string{*lp} << '\n';
+    lp->convertToStandardForm();
+    std::cout << "\nStandard form:\n";
     std::cout << std::string{*lp} << '\n';
 
     QApplication app(argc, argv);

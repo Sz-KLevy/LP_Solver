@@ -16,6 +16,8 @@ public:
         std::vector<std::unique_ptr<Feltetel>>& feltetelek,
         std::unique_ptr<Celfuggveny>& celfuggveny);
 
+    void convertToStandardForm();
+
     operator std::string() const;
 };
 

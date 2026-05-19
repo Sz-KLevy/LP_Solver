@@ -22,8 +22,9 @@ public:
     void changeDirection();
 
     void add(Monom monom);
-
     void removeLast();
+
+    void convertToStandardForm();
 
     operator std::string() const;
 };
