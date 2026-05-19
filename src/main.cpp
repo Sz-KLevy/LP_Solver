@@ -61,11 +61,11 @@ int main(int argc, char** argv){
         celf->add(Monom{1, "u" + std::to_string(counter)});
         celf->add(Monom{1, "v" + std::to_string(counter)});
 
-        feltetelek.emplace_back(std::make_unique<Feltetel>(Feltetel::Condition::GreaterThanOrEquals,std::vector<Monom>{{1, "u" + std::to_string(counter)}}, std::vector<Monom>{{1, "x"},{-point[0], ""}}));
-        feltetelek.emplace_back(std::make_unique<Feltetel>(Feltetel::Condition::GreaterThanOrEquals,std::vector<Monom>{{1, "u" + std::to_string(counter)}}, std::vector<Monom>{{point[0], ""},{-1, "x"}}));
+        feltetelek.emplace_back(std::make_unique<Feltetel>(Feltetel::Condition::GreaterThanOrEquals,std::vector<Monom>{{1, "u" + std::to_string(counter)}}, std::vector<Monom>{{1, "x"},{-point[0],}}));
+        feltetelek.emplace_back(std::make_unique<Feltetel>(Feltetel::Condition::GreaterThanOrEquals,std::vector<Monom>{{1, "u" + std::to_string(counter)}}, std::vector<Monom>{{point[0],},{-1, "x"}}));
 
-        feltetelek.emplace_back(std::make_unique<Feltetel>(Feltetel::Condition::GreaterThanOrEquals,std::vector<Monom>{{1, "v" + std::to_string(counter)}}, std::vector<Monom>{{1, "y"},{-point[0], ""}}));
-        feltetelek.emplace_back(std::make_unique<Feltetel>(Feltetel::Condition::GreaterThanOrEquals,std::vector<Monom>{{1, "v" + std::to_string(counter)}}, std::vector<Monom>{{point[0], ""},{-1, "y"}}));
+        feltetelek.emplace_back(std::make_unique<Feltetel>(Feltetel::Condition::GreaterThanOrEquals,std::vector<Monom>{{1, "v" + std::to_string(counter)}}, std::vector<Monom>{{1, "y"},{-point[0],}}));
+        feltetelek.emplace_back(std::make_unique<Feltetel>(Feltetel::Condition::GreaterThanOrEquals,std::vector<Monom>{{1, "v" + std::to_string(counter)}}, std::vector<Monom>{{point[0],},{-1, "y"}}));
 
         counter++;
 
