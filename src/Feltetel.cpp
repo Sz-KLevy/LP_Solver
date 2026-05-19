@@ -21,22 +21,18 @@ void Feltetel::convertToLessThanOrEquals()
     switch (m_condition)
     {
     case Condition::LessThanOrEquals:
+    case Condition::LessThan:
         // Noop
         break;
-    case Condition::LessThan:
-        m_condition = Condition::LessThan;
-        // TODO
-        break;
     case Condition::GreaterThanOrEquals:
-        // TODO
     case Condition::GreaterThan:
         for (auto& mon : bal_oldal)
             mon *= -1;
         for (auto& mon : jobb_oldal)
             mon *= -1;
-        m_condition = Condition::LessThanOrEquals;
         break;
     }
+    m_condition = Condition::LessThanOrEquals;
 }
 
 Feltetel::operator std::string() const {
