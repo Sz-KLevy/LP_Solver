@@ -45,38 +45,48 @@ int main(int argc, char** argv){
 
     */
 
-    std::vector<Monom> monom = {Monom{2, "x₁"}, Monom{0.5, "x₂"}};
-    std::vector<std::unique_ptr<Feltetel>> feltetelek;
-    feltetelek.emplace_back(std::make_unique<Feltetel>(
-        Feltetel::Condition::GreaterThanOrEquals,
-        std::vector<Monom>{{5, "x₁"}},
-        std::vector<Monom>{{20}}
-    ));
-    feltetelek.emplace_back(std::make_unique<Feltetel>(
-        Feltetel::Condition::LessThanOrEquals,
-        std::vector<Monom>{{1, "x₂"}},
-        std::vector<Monom>{{8}}
-    ));
-    feltetelek.emplace_back(std::make_unique<Feltetel>(
-        Feltetel::Condition::LessThanOrEquals,
-        std::vector<Monom>{{0.5, "x₃"}},
-        std::vector<Monom>{{12}}
-    ));
-    auto celf = std::make_unique<Celfuggveny>(Celfuggveny::Irany::Min, monom);
-
-    auto lp = std::make_unique<LP>(feltetelek, celf);
-
-    std::cout << "Original:\n";
-    std::cout << std::string{*lp} << '\n';
-    lp->convertToStandardForm();
-    std::cout << "\nStandard form:\n";
-    std::cout << std::string{*lp} << '\n';
-
     QApplication app(argc, argv);
-    /*QLabel label{"Hello world"};
-    label.setMargin(20);
-    label.show();*/
+
     UI ui;
+
+    auto celf = std::make_unique<Celfuggveny>(Celfuggveny::Irany::Min, std::vector<Monom>{});
+
+    std::vector<std::unique_ptr<Feltetel>> feltetelek;
+
+    int counter = 1;
+
+    ui.point_added.connect([&celf, &feltetelek, &counter](std::array<float, 2> point){
+        //std::cout <<"point added to: x: " << point[0] << " y: " << point[1] << "\n";
+
+        celf->add(Monom{1, "u" + std::to_string(counter)});
+        celf->add(Monom{1, "v" + std::to_string(counter)});
+
+        feltetelek.emplace_back(std::make_unique<Feltetel>(Feltetel::Condition::GreaterThanOrEquals,std::vector<Monom>{{1, "u" + std::to_string(counter)}}, std::vector<Monom>{{1, "x"},{-point[0], ""}}));
+        feltetelek.emplace_back(std::make_unique<Feltetel>(Feltetel::Condition::GreaterThanOrEquals,std::vector<Monom>{{1, "u" + std::to_string(counter)}}, std::vector<Monom>{{point[0], ""},{-1, "x"}}));
+
+        feltetelek.emplace_back(std::make_unique<Feltetel>(Feltetel::Condition::GreaterThanOrEquals,std::vector<Monom>{{1, "v" + std::to_string(counter)}}, std::vector<Monom>{{1, "y"},{-point[0], ""}}));
+        feltetelek.emplace_back(std::make_unique<Feltetel>(Feltetel::Condition::GreaterThanOrEquals,std::vector<Monom>{{1, "v" + std::to_string(counter)}}, std::vector<Monom>{{point[0], ""},{-1, "y"}}));
+
+        counter++;
+
+        std::vector<std::unique_ptr<Feltetel>> feltetelek_copy;
+        feltetelek_copy.reserve(feltetelek.size());
+
+        for(const auto &f:feltetelek){
+            feltetelek_copy.push_back(f->clone());
+        }
+
+        auto celf_copy = std::make_unique<Celfuggveny>(*celf);
+
+        auto lp = std::make_unique<LP>(feltetelek_copy, celf_copy);
+
+        std::cout << "Original:\n";
+        std::cout << std::string{*lp} << '\n';
+        lp->convertToStandardForm();
+        std::cout << "\nStandard form:\n";
+        std::cout << std::string{*lp} << '\n';
+    });
+
     ui.show();
 
     //return 0;

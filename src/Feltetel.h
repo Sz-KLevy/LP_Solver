@@ -3,6 +3,7 @@
 
 #include "Monom.h"
 #include <vector>
+#include <memory>
 
 enum class Oldal
 {
@@ -35,6 +36,8 @@ public:
     void convertToLessThanOrEquals();
 
     operator std::string() const;
+
+    std::unique_ptr<Feltetel> clone() const;
 };
 
 #endif // FELTETEL_H
