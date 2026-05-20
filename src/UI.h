@@ -10,6 +10,8 @@
 #include <QMouseEvent>
 #include <QWidget>
 
+#include "Signal.h"
+
 #include <iostream>
 #include <string>
 #include <memory>
@@ -21,6 +23,8 @@ public:
     int cellSize = 50;
     std::vector<std::array<float,2>> points;
     std::array<float,2> optimalPoint;
+
+    Signal point_added;
 
     explicit UI(QWidget *parent = nullptr);
     std::vector<std::array<float,2>> getPoints();

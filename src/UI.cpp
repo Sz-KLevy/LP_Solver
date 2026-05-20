@@ -24,7 +24,7 @@ void UI::mousePressEvent(QMouseEvent* event) {
     int origo[2] = {((width()/cellSize)/2)*cellSize, ((height()/cellSize)/2)*cellSize};
 
     points.push_back({(float)(click.x()-origo[0])/cellSize, (float)-(click.y()-origo[1])/cellSize});
-    std::cout << (float)(click.x()-origo[0])/cellSize << "\t" << (float)-(click.y()-origo[1])/cellSize << std::endl;
+    point_added.emit_cords(points.back());
 
     optimalPoint = {1.0,1.0};//this is where the UI asks for the position of the optimal point
 

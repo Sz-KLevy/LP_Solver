@@ -60,3 +60,7 @@ Feltetel::operator std::string() const {
     }
     return out;
 }
+
+std::unique_ptr<Feltetel> Feltetel::clone() const {
+    return std::make_unique<Feltetel>(*this);
+}
