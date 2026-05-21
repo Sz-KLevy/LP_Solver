@@ -26,8 +26,6 @@ void UI::mousePressEvent(QMouseEvent* event) {
     points.push_back({(float)(click.x()-origo[0])/cellSize, (float)-(click.y()-origo[1])/cellSize});
     point_added.emit_cords(points.back());
 
-    optimalPoint = {1.0,1.0};//this is where the UI asks for the position of the optimal point
-
     update(); //repaints
 }
 
