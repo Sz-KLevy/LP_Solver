@@ -34,6 +34,7 @@ public:
     void removeLast(Oldal oldal);
 
     void convertToLessThanOrEquals();
+    void convertToStandardForm();
 
     operator std::string() const;
 
