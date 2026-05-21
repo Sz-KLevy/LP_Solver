@@ -91,10 +91,25 @@ int main(int argc, char** argv){
         std::cout << "Dictionary form:\n";
         std::cout << std::string{*lp} << '\n';
         std::cout << '\n';
+
+        for (int i{1}; !lp->isOptimal() && i <= 10; ++i)
+        {
+            lp->stepSimplex();
+            std::cout << "After iteration #" << i << ":\n";
+            std::cout << std::string{*lp} << "\n\n";
+        }
+
+        std::cout << "Optimal LP:\n";
+        std::cout << std::string{*lp} << '\n';
+        std::cout << '\n';
+        std::cout << "Variables:\n";
+        for (const auto& var : lp->getVariables())
+        {
+             std::cout << var.first << " = " << var.second << '\n';
+        }
     });
 
     ui.show();
 
-    //return 0;
     return app.exec();
 };

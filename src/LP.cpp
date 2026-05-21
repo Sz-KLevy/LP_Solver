@@ -49,6 +49,38 @@ void LP::convertToDictionaryForm()
     m_feltetelek = std::move(feltetelek);
 }
 
+bool LP::isOptimal() const
+{
+    return m_celfuggveny->isOptimal();
+}
+
+void LP::stepSimplex()
+{
+}
+
+std::map<std::string, double> LP::getVariables() const
+{
+    std::map<std::string, double> out;
+    for (const auto& felt : m_feltetelek)
+    {
+        const auto& left = felt->getSide(Oldal::Bal);
+        assert(left.size() == 1);
+
+        const auto& right = felt->getSide(Oldal::Jobb);
+        assert(right.size() >= 1 && right[0].isConstant());
+
+        out[left[0].getName()] = right[0].getCoefficient();
+
+        for (const auto& r : right)
+        {
+            if (r.isConstant()) continue;
+            out[r.getName()] = 0;
+        }
+    }
+
+    return out;
+}
+
 LP::operator std::string() const
 {
     std::string out;

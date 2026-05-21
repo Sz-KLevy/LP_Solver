@@ -13,10 +13,10 @@ public:
     Monom(double e, std::string i="");
 
     void changeCoefficient(double uj_egyutthato);
-    double getCoefficient();
+    double getCoefficient() const;
 
     void changeName(const std::string& uj_ismeretlen);
-    std::string getName();
+    std::string getName() const;
 
     bool isConstant() const;
 

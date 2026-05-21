@@ -27,6 +27,7 @@ public:
 
     void convertToStandardForm();
     void convertToDictionaryForm();
+    bool isOptimal() const;
 
     operator std::string() const;
 };
