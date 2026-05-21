@@ -13,9 +13,9 @@ void LP::convertToStandardForm()
     for (auto& felt : m_feltetelek)
     {
         felt->convertToLessThanOrEquals();
+        felt->convertToStandardForm();
     }
 }
-
 
 LP::operator std::string() const
 {
