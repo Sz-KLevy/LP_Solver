@@ -16,6 +16,11 @@ void Feltetel::removeLast(Oldal oldal){
     else if(oldal == Oldal::Jobb){jobb_oldal.pop_back();}
 }
 
+const std::vector<Monom>& Feltetel::getSide(Oldal oldal) const
+{
+    return oldal == Oldal::Bal ? bal_oldal : jobb_oldal;
+}
+
 void Feltetel::convertToLessThanOrEquals()
 {
     switch (m_condition)
@@ -31,6 +36,8 @@ void Feltetel::convertToLessThanOrEquals()
         for (auto& mon : jobb_oldal)
             mon *= -1;
         break;
+    case Condition::Equal:
+        return;
     }
     m_condition = Condition::LessThanOrEquals;
 }
@@ -78,6 +85,9 @@ Feltetel::operator std::string() const {
         break;
     case Condition::GreaterThanOrEquals:
         out += " ≥ ";
+        break;
+    case Condition::Equal:
+        out += " = ";
         break;
     }
     for (const auto& val : jobb_oldal) {

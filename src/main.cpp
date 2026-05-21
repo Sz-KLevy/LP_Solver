@@ -82,9 +82,15 @@ int main(int argc, char** argv){
 
         std::cout << "Original:\n";
         std::cout << std::string{*lp} << '\n';
+
         lp->convertToStandardForm();
-        std::cout << "\nStandard form:\n";
+        std::cout << "Standard form:\n";
         std::cout << std::string{*lp} << '\n';
+
+        lp->convertToDictionaryForm();
+        std::cout << "Dictionary form:\n";
+        std::cout << std::string{*lp} << '\n';
+        std::cout << '\n';
     });
 
     ui.show();

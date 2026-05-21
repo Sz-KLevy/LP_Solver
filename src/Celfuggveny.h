@@ -15,6 +15,7 @@ public:
 private:
     Irany irany;
     std::vector<Monom> fuggveny;
+    bool m_dictionaryForm = false;
 
 public:
     Celfuggveny(Irany i, std::vector<Monom> f);
@@ -25,6 +26,7 @@ public:
     void removeLast();
 
     void convertToStandardForm();
+    void convertToDictionaryForm();
 
     operator std::string() const;
 };

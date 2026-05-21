@@ -17,6 +17,7 @@ public:
         std::unique_ptr<Celfuggveny>& celfuggveny);
 
     void convertToStandardForm();
+    void convertToDictionaryForm();
 
     operator std::string() const;
 };
