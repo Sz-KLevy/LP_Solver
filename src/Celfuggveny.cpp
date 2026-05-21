@@ -29,9 +29,22 @@ void Celfuggveny::convertToStandardForm()
     }
 }
 
+void Celfuggveny::convertToDictionaryForm()
+{
+    convertToStandardForm();
+    m_dictionaryForm = true;
+}
+
 Celfuggveny::operator std::string() const {
-    std::string out = "z = ";
-    out += (irany == Irany::Min ? "min" : "max");
+    std::string out;
+    if (m_dictionaryForm)
+    {
+        out += "z =";
+    }
+    else
+    {
+        out += (irany == Irany::Min ? "min" : "max");
+    }
     out += " ";
     for (const auto& v : fuggveny) {
         out += v;

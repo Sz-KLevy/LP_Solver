@@ -46,5 +46,7 @@ Monom& Monom::operator/=(double val)
 
 Monom::operator std::string() const
 {
+    if (egyutthato == 1 && !ismeretlen.empty()) return "+"+ismeretlen;
+    if (egyutthato == -1 && !ismeretlen.empty()) return "-"+ismeretlen;
     return std::format("{:+}", egyutthato) + ismeretlen;
 }
