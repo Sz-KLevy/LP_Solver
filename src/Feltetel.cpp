@@ -32,7 +32,9 @@ void Feltetel::convertToLessThanOrEquals()
             mon *= -1;
         break;
     }
-    m_condition = Condition::LessThanOrEquals;
+    if(m_condition != Condition::Equals){
+        m_condition = Condition::LessThanOrEquals;
+    }
 }
 
 void Feltetel::convertToStandardForm()
@@ -60,6 +62,19 @@ void Feltetel::convertToStandardForm()
     }
 }
 
+void Feltetel::convertToSzotarForm(std::string mest){
+
+
+    for(auto it = bal_oldal.begin(); it!= bal_oldal.end();){
+        it ->changeCoefficient(-it ->getCoefficient());
+        jobb_oldal.push_back(*it);
+        it = bal_oldal.erase(it);
+    }
+
+    m_condition = Condition::Equals;
+    bal_oldal.push_back(Monom(1,mest));
+}
+
 Feltetel::operator std::string() const {
     std::string out;
     for (const auto& val : bal_oldal) {
@@ -78,6 +93,9 @@ Feltetel::operator std::string() const {
         break;
     case Condition::GreaterThanOrEquals:
         out += " ≥ ";
+        break;
+    case Condition::Equals:
+        out += " = ";
         break;
     }
     for (const auto& val : jobb_oldal) {

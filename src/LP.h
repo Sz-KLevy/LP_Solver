@@ -17,6 +17,7 @@ public:
         std::unique_ptr<Celfuggveny>& celfuggveny);
 
     void convertToStandardForm();
+    void convertToSzotarForm();
 
     operator std::string() const;
 };

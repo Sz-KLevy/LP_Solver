@@ -85,6 +85,9 @@ int main(int argc, char** argv){
         lp->convertToStandardForm();
         std::cout << "\nStandard form:\n";
         std::cout << std::string{*lp} << '\n';
+        lp->convertToSzotarForm();
+        std::cout << "\nSzotar form:\n";
+        std::cout << std::string{*lp} << '\n';
     });
 
     ui.show();

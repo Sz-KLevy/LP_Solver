@@ -20,6 +20,7 @@ public:
         LessThanOrEquals,
         GreaterThan,
         GreaterThanOrEquals,
+        Equals,
     };
 
 private:
@@ -35,6 +36,7 @@ public:
 
     void convertToLessThanOrEquals();
     void convertToStandardForm();
+    void convertToSzotarForm(std::string mest);
 
     operator std::string() const;
 

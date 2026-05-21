@@ -17,6 +17,16 @@ void LP::convertToStandardForm()
     }
 }
 
+void LP::convertToSzotarForm()
+{
+    int counter = 1;
+    for (auto& felt : m_feltetelek)
+    {
+        felt -> convertToSzotarForm("m"+std::to_string(counter));
+        counter++;
+    }
+}
+
 LP::operator std::string() const
 {
     std::string out;
