@@ -35,6 +35,31 @@ void Feltetel::convertToLessThanOrEquals()
     m_condition = Condition::LessThanOrEquals;
 }
 
+void Feltetel::convertToStandardForm()
+{
+    for(auto it = bal_oldal.begin(); it!= bal_oldal.end();){
+        if(!it->isConstant()){
+            it ->changeCoefficient(-it ->getCoefficient());
+            jobb_oldal.push_back(*it);
+            it = bal_oldal.erase(it);
+        }
+        else{
+            it++;
+        }
+    }
+
+    for(auto it = jobb_oldal.begin(); it!= jobb_oldal.end();){
+        if(it->isConstant()){
+            it ->changeCoefficient(-it ->getCoefficient());
+            bal_oldal.push_back(*it);
+            it = jobb_oldal.erase(it);
+        }
+        else{
+            it++;
+        }
+    }
+}
+
 Feltetel::operator std::string() const {
     std::string out;
     for (const auto& val : bal_oldal) {
