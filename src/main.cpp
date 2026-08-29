@@ -108,12 +108,10 @@ int main(int argc, char** argv){
         std::cout << std::string{*lp} << '\n';
         std::cout << '\n';
         std::cout << "Variables:\n";
-        auto variables = lp->getVariables();
-        for (const auto& var : variables)
+        for (const auto& var : lp->getVariables())
         {
              std::cout << var.first << " = " << var.second << '\n';
         }
-        ui.point_added.emit_optimal({variables.at("x"),variables.at("y")});
     });
 
     ui.show();
