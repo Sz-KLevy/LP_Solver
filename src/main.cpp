@@ -45,6 +45,7 @@ int main(int argc, char** argv){
 
     */
 
+    #if 1
     QApplication app(argc, argv);
 
     UI ui;
@@ -82,13 +83,104 @@ int main(int argc, char** argv){
 
         std::cout << "Original:\n";
         std::cout << std::string{*lp} << '\n';
+
         lp->convertToStandardForm();
-        std::cout << "\nStandard form:\n";
+        std::cout << "Standard form:\n";
         std::cout << std::string{*lp} << '\n';
+
+        lp->convertToDictionaryForm();
+        std::cout << "Dictionary form:\n";
+        std::cout << std::string{*lp} << '\n';
+        std::cout << '\n';
+
+        for (int i{1}; !lp->isOptimal() && i <= 10; ++i)
+        {
+            lp->stepSimplex();
+            std::cout << "After iteration #" << i << ":\n";
+            std::cout << std::string{*lp} << "\n\n";
+        }
+
+        std::cout << "Optimal LP:\n";
+        std::cout << std::string{*lp} << '\n';
+        std::cout << '\n';
+        std::cout << "Variables:\n";
+        for (const auto& var : lp->getVariables())
+        {
+             std::cout << var.first << " = " << var.second << '\n';
+        }
     });
 
     ui.show();
 
-    //return 0;
     return app.exec();
+
+#else
+    /*
+    std::vector<Monom> monom = {Monom{2, "x₁"}, Monom{0.5, "x₂"}};
+    std::vector<std::unique_ptr<Feltetel>> feltetelek;
+    feltetelek.emplace_back(std::make_unique<Feltetel>(
+        Feltetel::Condition::GreaterThanOrEquals,
+        std::vector<Monom>{{5, "x₁"}},
+        std::vector<Monom>{{20}}
+    ));
+    feltetelek.emplace_back(std::make_unique<Feltetel>(
+        Feltetel::Condition::LessThanOrEquals,
+        std::vector<Monom>{{1, "x₂"}},
+        std::vector<Monom>{{8}}
+    ));
+    feltetelek.emplace_back(std::make_unique<Feltetel>(
+        Feltetel::Condition::LessThanOrEquals,
+        std::vector<Monom>{{0.5, "x₃"}},
+        std::vector<Monom>{{12}}
+    ));
+    auto celf = std::make_unique<Celfuggveny>(Celfuggveny::Irany::Min, monom);
+
+    auto lp = std::make_unique<LP>(feltetelek, celf);
+    */
+
+    std::vector<std::unique_ptr<Feltetel>> feltetelek;
+    feltetelek.emplace_back(std::make_unique<Feltetel>(
+        Feltetel::Condition::LessThanOrEquals,
+        std::vector<Monom>{{4, "x₁"}, {3, "x₂"}},
+        std::vector<Monom>{{20}}
+    ));
+    feltetelek.emplace_back(std::make_unique<Feltetel>(
+        Feltetel::Condition::LessThanOrEquals,
+        std::vector<Monom>{{2, "x₁"}, {-1, "x₂"}},
+        std::vector<Monom>{{2}}
+    ));
+    auto celf = std::make_unique<Celfuggveny>(Celfuggveny::Irany::Max, std::vector<Monom>{Monom{40, "x₁"}, Monom{25, "x₂"}});
+
+    auto lp = std::make_unique<LP>(feltetelek, celf);
+
+    std::cout << "Original:\n";
+    std::cout << std::string{*lp} << '\n';
+
+    lp->convertToStandardForm();
+    std::cout << "\nStandard form:\n";
+    std::cout << std::string{*lp} << '\n';
+
+    lp->convertToDictionaryForm();
+    std::cout << "\nDictionary form:\n";
+    std::cout << std::string{*lp} << '\n';
+    std::cout << '\n';
+
+    for (int i{1}; !lp->isOptimal() && i <= 10; ++i)
+    {
+        lp->stepSimplex();
+        std::cout << "After iteration #" << i << ":\n";
+        std::cout << std::string{*lp} << "\n\n";
+    }
+
+    std::cout << "Optimal LP:\n";
+    std::cout << std::string{*lp} << '\n';
+    std::cout << '\n';
+    std::cout << "Variables:\n";
+    for (const auto& var : lp->getVariables())
+    {
+         std::cout << var.first << " = " << var.second << '\n';
+    }
+
+    return 0;
+#endif
 };

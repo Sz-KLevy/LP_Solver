@@ -20,6 +20,7 @@ public:
         LessThanOrEquals,
         GreaterThan,
         GreaterThanOrEquals,
+        Equal,
     };
 
 private:
@@ -32,8 +33,10 @@ public:
 
     void add(Oldal oldal, Monom monom);
     void removeLast(Oldal oldal);
+    const std::vector<Monom>& getSide(Oldal oldal) const;
 
     void convertToLessThanOrEquals();
+    void convertToStandardForm();
 
     operator std::string() const;
 

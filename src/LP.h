@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <memory>
+#include <map>
 #include "Feltetel.h"
 #include "Celfuggveny.h"
 
@@ -17,6 +18,10 @@ public:
         std::unique_ptr<Celfuggveny>& celfuggveny);
 
     void convertToStandardForm();
+    void convertToDictionaryForm();
+    bool isOptimal() const;
+    void stepSimplex();
+    std::map<std::string, double> getVariables() const;
 
     operator std::string() const;
 };

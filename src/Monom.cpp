@@ -12,7 +12,7 @@ void Monom::changeCoefficient(double uj_egyutthato)
     egyutthato = uj_egyutthato;
 }
 
-double Monom::getCoefficient()
+double Monom::getCoefficient() const
 {
     return egyutthato;
 }
@@ -22,7 +22,7 @@ void Monom::changeName(const std::string& uj_ismeretlen)
     ismeretlen = uj_ismeretlen;
 }
 
-std::string Monom::getName()
+std::string Monom::getName() const
 {
     return ismeretlen;
 }
@@ -46,5 +46,7 @@ Monom& Monom::operator/=(double val)
 
 Monom::operator std::string() const
 {
+    if (egyutthato == 1 && !ismeretlen.empty()) return "+"+ismeretlen;
+    if (egyutthato == -1 && !ismeretlen.empty()) return "-"+ismeretlen;
     return std::format("{:+}", egyutthato) + ismeretlen;
 }

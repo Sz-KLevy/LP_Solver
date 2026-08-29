@@ -1,4 +1,5 @@
 #include "Celfuggveny.h"
+#include <algorithm>
 
 Celfuggveny::Celfuggveny(Irany i, std::vector<Monom> f){
     irany = i;
@@ -29,9 +30,29 @@ void Celfuggveny::convertToStandardForm()
     }
 }
 
+void Celfuggveny::convertToDictionaryForm()
+{
+    convertToStandardForm();
+    m_dictionaryForm = true;
+}
+
+bool Celfuggveny::isOptimal() const
+{
+    return std::all_of(fuggveny.begin(), fuggveny.end(), [](const Monom& mon){
+        return mon.getCoefficient() <= 0;
+    });
+}
+
 Celfuggveny::operator std::string() const {
-    std::string out = "z = ";
-    out += (irany == Irany::Min ? "min" : "max");
+    std::string out;
+    if (m_dictionaryForm)
+    {
+        out += "z =";
+    }
+    else
+    {
+        out += (irany == Irany::Min ? "min" : "max");
+    }
     out += " ";
     for (const auto& v : fuggveny) {
         out += v;
