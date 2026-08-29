@@ -56,7 +56,11 @@ int main(int argc, char** argv){
 
     int counter = 1;
 
-    ui.point_added.connect([&celf, &feltetelek, &counter](std::array<float, 2> point){
+    ui.point_added.connect_optimal([&ui](std::array<float, 2> point){
+        ui.optimalPoint = point;
+    });
+
+    ui.point_added.connect_cords([&ui, &celf, &feltetelek, &counter](std::array<float, 2> point){
         //std::cout <<"point added to: x: " << point[0] << " y: " << point[1] << "\n";
 
         celf->add(Monom{1, "u" + std::to_string(counter)});
@@ -104,10 +108,12 @@ int main(int argc, char** argv){
         std::cout << std::string{*lp} << '\n';
         std::cout << '\n';
         std::cout << "Variables:\n";
-        for (const auto& var : lp->getVariables())
+        auto variables = lp->getVariables();
+        for (const auto& var : variables)
         {
              std::cout << var.first << " = " << var.second << '\n';
         }
+        ui.point_added.emit_optimal({variables.at("x"),variables.at("y")});
     });
 
     ui.show();

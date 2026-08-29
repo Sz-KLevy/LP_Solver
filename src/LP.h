@@ -22,7 +22,6 @@ public:
     bool isOptimal() const;
     void stepSimplex();
     std::map<std::string, double> getVariables() const;
-
     operator std::string() const;
 };
 
