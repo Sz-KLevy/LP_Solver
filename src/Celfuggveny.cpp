@@ -43,6 +43,54 @@ bool Celfuggveny::isOptimal() const
     });
 }
 
+std::optional<std::string> Celfuggveny::getEnteringVariable() const
+{
+    for(auto& mon : fuggveny)
+    {
+        if(irany == Irany::Max && mon.getCoefficient() > 0){return mon.getName();}
+        else if(irany == Irany::Min && mon.getCoefficient() < 0){return mon.getName();}
+    }
+    return std::nullopt;
+}
+
+void Celfuggveny::changeCelfuggveny(std::string changeName, Feltetel change)
+{
+    double changeValue = 0;
+    bool found = false;
+    for(auto it = fuggveny.begin(); it != fuggveny.end(); ++it)
+    {
+        if(it->getName()==changeName)
+        {
+            changeValue = it->getCoefficient();
+            if(changeValue==0){return;}
+            found = true;
+            fuggveny.erase(it);
+            break;
+        }
+    }
+    if(!found){return;}
+
+    for(auto& monom : change.getSide(Oldal::Jobb))
+    {
+        bool changed = false;
+        std::string searchName = monom.getName();
+        for(auto& fuggvenyMonom : fuggveny){
+            if(fuggvenyMonom.getName() == searchName)
+            {
+                fuggvenyMonom+=(changeValue*monom.getCoefficient());
+                changed = true;
+                break;
+            }
+        }
+        if(!changed)
+        {
+            auto newMonom = monom;
+            newMonom *= changeValue;
+            fuggveny.push_back(newMonom);
+        }
+    }
+}
+
 Celfuggveny::operator std::string() const {
     std::string out;
     if (m_dictionaryForm)

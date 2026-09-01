@@ -2,7 +2,9 @@
 #define CELFUGGVENY_H
 
 #include <vector>
+#include <optional>
 #include "Monom.h"
+#include "Feltetel.h"
 
 class Celfuggveny
 {
@@ -28,6 +30,8 @@ public:
     void convertToStandardForm();
     void convertToDictionaryForm();
     bool isOptimal() const;
+    std::optional<std::string> getEnteringVariable() const;
+    void changeCelfuggveny(std::string, Feltetel);
 
     operator std::string() const;
 };

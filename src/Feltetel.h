@@ -4,6 +4,7 @@
 #include "Monom.h"
 #include <vector>
 #include <memory>
+#include <optional>
 
 enum class Oldal
 {
@@ -34,6 +35,9 @@ public:
     void add(Oldal oldal, Monom monom);
     void removeLast(Oldal oldal);
     const std::vector<Monom>& getSide(Oldal oldal) const;
+    std::optional<std::pair<std::string, double>> minimumRatioTest(const std::string& enteringVariable) const;
+    void switchVariables(std::string);
+    void changeFeltetel(std::string, Feltetel);
 
     void convertToLessThanOrEquals();
     void convertToStandardForm();

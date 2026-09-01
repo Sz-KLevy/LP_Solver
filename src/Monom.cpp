@@ -44,6 +44,12 @@ Monom& Monom::operator/=(double val)
     return *this;
 }
 
+Monom& Monom::operator+=(double val)
+{
+    egyutthato += val;
+    return *this;
+}
+
 Monom::operator std::string() const
 {
     if (egyutthato == 1 && !ismeretlen.empty()) return "+"+ismeretlen;

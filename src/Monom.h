@@ -22,6 +22,7 @@ public:
 
     Monom& operator*=(double val);
     Monom& operator/=(double val);
+    Monom& operator+=(double val);
 
     operator std::string() const;
 };

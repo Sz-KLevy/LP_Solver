@@ -4,6 +4,7 @@
 #include <vector>
 #include <memory>
 #include <map>
+#include <optional>
 #include "Feltetel.h"
 #include "Celfuggveny.h"
 
@@ -21,6 +22,7 @@ public:
     void convertToDictionaryForm();
     bool isOptimal() const;
     void stepSimplex();
+    std::optional<std::string> getLeavingVariable(std::string) const;
     std::map<std::string, double> getVariables() const;
     operator std::string() const;
 };

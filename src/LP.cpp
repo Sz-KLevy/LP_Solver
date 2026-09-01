@@ -3,6 +3,7 @@
 #include <format>
 #include <memory>
 #include <cassert>
+#include <limits>
 
 LP::LP(
     std::vector<std::unique_ptr<Feltetel>>& feltetelek,
@@ -56,6 +57,47 @@ bool LP::isOptimal() const
 
 void LP::stepSimplex()
 {
+    auto enteringVariable = m_celfuggveny->getEnteringVariable();
+    if(!enteringVariable){return;}
+    auto leavingVariable = getLeavingVariable(*enteringVariable);
+    if(!leavingVariable){return;}
+    for(auto& felt : m_feltetelek)
+    {
+        if(felt ->getSide(Oldal::Bal)[0].getName() == *leavingVariable)
+        {
+            felt ->switchVariables(*enteringVariable);
+            for(auto&felt2 : m_feltetelek)
+            {
+                if(felt2 -> getSide(Oldal::Bal)[0].getName() != *enteringVariable)
+                {
+                    felt2 -> changeFeltetel(*enteringVariable, *felt);
+                }
+            }
+            m_celfuggveny -> changeCelfuggveny(*enteringVariable, *felt);
+            break;
+        }
+    }
+
+    return;
+}
+
+std::optional<std::string> LP::getLeavingVariable(std::string enteringVariable) const{
+    std::optional<std::string> leavingVariable;
+    double leavingMinimumRatioTest = std::numeric_limits<double>::infinity();
+
+    for(const auto& feltetel : m_feltetelek){
+        auto result = feltetel -> minimumRatioTest(enteringVariable);
+        if(result)
+        {
+            auto [ratioTestName, ratioTestValue] = *result;
+            if(ratioTestValue < leavingMinimumRatioTest)
+            {
+                    leavingMinimumRatioTest = ratioTestValue;
+                    leavingVariable = ratioTestName;
+            }
+        }
+    }
+    return leavingVariable;
 }
 
 std::map<std::string, double> LP::getVariables() const
